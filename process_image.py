@@ -63,14 +63,14 @@ def process_image(image_path, output_path, model, threshold=0.08):
     output = infer_image(image_path, model)
     save_output(output, output_path, threshold)
 
-if __name__ == "__main__":
+if name == "main":
     parser = argparse.ArgumentParser(description='Обработка TIF изображения и сохранение маски.')
     parser.add_argument('image_path', type=str, help='Путь к входному 10 канальному TIF изображению')
     parser.add_argument('output_path', type=str, help='Путь для сохранения бинарной маски')
-    parser.add_argument('--threshold', type=float, default=0.08, help='Порог для бинаризации маски (по умолчанию 0.2)')
-    parser.add_argument('--pth', type=str, help='Путь до весов модели')
+    parser.add_argument('--threshold', type=float, default=0.08, help='Порог для бинаризации маски (по умолчанию 0.08)')
+    parser.add_argument('--model', type=str, required=True, help='Путь до весов модели')
     
     args = parser.parse_args()
 
-    model = load_model("deeplabv3_trained_epoch_30_2.pth")
+    model = load_model(args.model)
     process_image(args.image_path, args.output_path, model, args.threshold)
